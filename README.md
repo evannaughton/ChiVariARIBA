@@ -4,10 +4,11 @@ Chitin Metabolism Pathway Gene Identification By Assembly Using ARIBA
 
 This resource was developed to allow the user to effectively identify chitin metabolism pathway components in Vibrios and other related species using paired-end sequencing reads as input.
 
-For how to use ARIBA, please see the [ARIBA wiki page][ARIBA wiki].
+For how to use ARIBA, please see the [ARIBA wiki page][ARIBA wiki]. *THIS README.md FILE HAS BEEN ADAPTED WITH MODIFICATIONS FROM THE ARIBA README.md FILE*
 
 ## Contents
 * [Introduction](#introduction)
+* [Preparing ChiVariARIBA reference sequences](#Preparing-ChiVariARIBA-reference-sequences)
 * [Quick Start](#quick-start)
 * [Installation](#installation)
   * [Required dependencies](#required-dependencies)
@@ -29,6 +30,8 @@ The input is a FASTA file of reference sequences (we have compiled these chitin 
 
 ## Preparing ChiVariARIBA reference sequences
 add details here of how the earlier work was done - for consistency with the manuscript
+
+
 We used a quality-controlled collection of 241 annotated genome sequences to create the pangenome used as input for this workflow. Details of how these genomes were collated are available in the manuscript linked to this repository (see below).
 From these annotated assemblies, a list of 189 genes associated with chitin metabolism were identified. The list included genes for which experimental or functional evidence was available in the literature supporting their role in chitin metabolism (see linked manuscript). Representative gene sequences from the pangenome gene families which contained these genes were collated into the ariba_chitin_genes.fasta file available in this repository. The fasta file header for each sequence corresponds to the gene family name in the pangenome output, and the annotation and accession number for the representative gene sequence is available in the ariba_metadata.tsv file in this repository. The metadata file also captures all of the sequence variation contained in the sequence alignment for each gene family. When ARIBA is used with this database, the presence and absence of all 189 gene families in read files will be reported, as well as any known sequence variants for genes previously-identified in the original pangenome. 
 
@@ -243,4 +246,4 @@ Microbial Genomics 2017. doi: [110.1099/mgen.0.000131](http://mgen.microbiologyr
   [mummer]: http://mummer.sourceforge.net/
   [python]: https://www.python.org/
 
-*THIS README.md FILE WAS A COPY & PASTE FROM ARIBAS OWN README.md FILE WITH SLIGHT ADJUSTMENTS*
+
