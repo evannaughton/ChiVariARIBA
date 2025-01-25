@@ -27,6 +27,11 @@ ChiVariARIBA is a tool that identifies genes encoding chitin metabolism pathway 
 
 The input is a FASTA file of reference sequences (we have compiled these chitin metabolism pathway genes carefully from the literature) and paired sequencing reads. ChiVariARIBA reports which of the reference sequences were found, plus detailed information on the quality of the assemblies and any variants between the sequencing reads and the reference sequences.
 
+## Preparing ChiVariARIBA reference sequences
+add details here of how the earlier work was done - for consistency with the manuscript
+We used a quality-controlled collection of 241 annotated genome sequences to create the pangenome used as input for this workflow. Details of how these genomes were collated are available in the manuscript linked to this repository (see below).
+From these annotated assemblies, a list of 189 genes associated with chitin metabolism were identified. The list included genes for which experimental or functional evidence was available in the literature supporting their role in chitin metabolism (see linked manuscript). Representative gene sequences from the pangenome gene families which contained these genes were collated into the ariba_chitin_genes.fasta file available in this repository. The fasta file header for each sequence corresponds to the gene family name in the pangenome output, and the annotation and accession number for the representative gene sequence is available in the ariba_metadata.tsv file in this repository. The metadata file also captures all of the sequence variation contained in the sequence alignment for each gene family. When ARIBA is used with this database, the presence and absence of all 189 gene families in read files will be reported, as well as any known sequence variants for genes previously-identified in the original pangenome. 
+
 ## Quick Start
 We have attached a pre-prepared database to this repository (ariba_database) which can be pulled down and ran independently with your selected input sequencing reads. However, we have also included the original .fasta and .tsv metadata file that were originally used to create ariba_database. You can recreate your own ariba_database using these files with the following command:
 
