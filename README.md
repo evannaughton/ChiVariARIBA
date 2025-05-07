@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/chivariariba.png" alt="ChiVariARIBA Logo" width="600"/>
+</p>
+
 # ChiVariARIBA
 
 Chitin Metabolism Pathway Gene Identification By Assembly Using ARIBA
