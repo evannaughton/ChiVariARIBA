@@ -2,6 +2,12 @@
   <img src="docs/chivariariba.png" alt="ChiVariARIBA Logo" width="600"/>
 </p>
 
+<p align="center">
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/language-Python-blue.svg" alt="Python Badge"/></a>
+  <a href="https://www.gnu.org/software/bash/"><img src="https://img.shields.io/badge/shell-Bash-lightgrey.svg" alt="Bash Badge"/></a>
+  <a href="https://creativecommons.org/licenses/by/4.0/"><img src="https://img.shields.io/badge/license-CC--BY-blue.svg" alt="License: CC-BY"/></a>
+</p>
+
 # ChiVariARIBA
 
 Chitin Metabolism Pathway Gene Identification By Assembly Using ARIBA
