@@ -4,7 +4,7 @@ import pandas as pd
 file_path = 'report.tsv'
 ariba_output = pd.read_csv(file_path, sep='\t')
 
-# Define the variant-specific columns (existing logic)
+# Define the variant-specific columns
 variant_columns = ariba_output.columns[14:30]
 
 # Define core columns that should remain identical for each unique gene entry, excluding 'free_text'
@@ -24,7 +24,7 @@ if 'free_text' in ariba_output.columns:
     
     # Ensure we have exactly 18 columns after splitting
     if free_text_split.shape[1] == 18:
-        free_text_split.columns = free_text_column_names  # Assign custom column names
+        free_text_split.columns = free_text_column_names 
     else:
         raise ValueError(f"Expected 18 columns from free_text split, but got {free_text_split.shape[1]}")
 
