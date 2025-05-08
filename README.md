@@ -20,6 +20,7 @@ For how to use ARIBA, please see the [ARIBA wiki page][ARIBA wiki]. *THIS README
 * [Introduction](#introduction)
 * [Preparing ChiVariARIBA reference sequences](#Preparing-ChiVariARIBA-reference-sequences)
 * [Quick Start](#quick-start)
+* [Output](#output)
 * [Installation](#installation)
   * [Required dependencies](#required-dependencies)
   * [Using pip3](#using-pip3)
@@ -56,6 +57,10 @@ Run local assemblies and call variants:
 
     ariba run ariba_database reads1.fastq reads2.fastq ariba_output
 
+where the `reads_1.fq`, `reads_2.fq` are the names of the forwards and reverse paired reads files. The reads files can be in any format that is compatible with [minimap](https://github.com/lh3/minimap) (in particular, gzipped).
+
+Important: ARIBA assumes that read _N_ in the file `reads_1.fq` is the mate of read _N_ in the file `reads_2.fq`. All output files will be put in a new directory called `out_dir`.
+
 Collapse the output report so that each gene found represents one single line (please move the collapse_report.py script into the ariba_output directory before executing):
 
     python3 collapse_report.py
@@ -68,8 +73,83 @@ It is also possible to summarise data from several runs:
 
 Please read the [ARIBA wiki page][ARIBA wiki] for full usage instructions for ARIBA.
 
-## Tutorials
+To see all the options, use `--help`:
+
+    ariba run --help
+
+## ARIBA Tutorials
 [The Jupyter notebook tutorial](https://github.com/sanger-pathogens/pathogen-informatics-training)
+
+## Output
+
+After using the collapse_report.py script on the original ChiVariARIBA output file, you should have a collapsed report `(ariba_collapsed_report.tsv)` where one gene is reported per line. This tap-separated output file contains the following columns:
+
+| Column                 | Description |
+|------------------------|-------------|
+| 1.  ariba_ref_name     | ariba name of reference sequence chosen from cluster (needs to rename to stop some tools breaking) |
+| 2.  ref_name           | original name of reference sequence chosen from cluster, before renaming (in ChiVariARIBA, this should be exact same as previous column)| 
+| 3.  gene               | 1=gene, 0=non-coding (same as metadata column 2) |
+| 4.  var_only           | 1=variant only, 0=presence/absence (same as metadata column 3) |
+| 5.  flag               | cluster flag |
+| 6.  reads              | number of reads in this cluster |
+| 7.  cluster            | name of cluster |
+| 8.  ref_len            | length of database gene sequence |
+| 9.  ref_base_assembled | number of database gene nucleotides assembled by this contig |
+| 10.  pc_ident           | %identity between database gene sequence and contig |
+| 11. ctg                | name of contig matching reference |
+| 12. ctg_len            | length of contig |
+| 13. ctg_cov            | mean mapped read depth of this contig |
+| 14. known_var          | is this a known SNP from reference metadata? 1 or 0 |
+| 15.  gff_file_of_gene   | The gff/assembly file that the database gene sequence originated from |
+| 16.  scaffold_name      | the name of the chromosomal assembly within the gff file that the database gene sequence originated from |
+| 17.  annotation/protein_id	| ID of the protein associated with this particular database gene |
+| 18.  gene_name          | name of gene |
+| 19.  gene_description/annotation	| annotated gene function description |
+| 20.  panaroo_gene_family	| name of gene family that this gene was binned into by Panaroo (threshold: -f 0.6) |
+| 21.  reference_gene_id		| name of `REFERENCE` chitin gene (experimentally-proven chitin genes found in the literature) that this gene was determined to be highly similar to (through BLAST) |
+| 22.  pident_compared_to_reference	| percent identity of the database gene sequence compared to its associated `REFERENCE` chitin gene sequence |
+| 23.  length             | length of database gene sequence |
+| 24.  mismatches         | number of mismatches between database gene sequence and its associated `REFERENCE` chitin gene sequence |
+| 25.  gapopen            | number of gaps open between database gene sequence and its associated `REFERENCE` chitin gene sequence |
+| 26.  qstart             | query start (start of database gene sequence within its associated `REFERENCE` chitin gene sequence) |
+| 27.  qend               | query end (end of database gene sequence within its associated `REFERENCE` chitin gene sequence) |
+| 28.  sstart             | start of alignment in subject |
+| 29.  send               | end of alignment in subject |
+| 30.  evalue             | expect value between database gene sequence and its associated `REFERENCE` chitin gene sequence |
+| 31.  bitscore           | bit score between database gene sequence and its associated `REFERENCE` chitin gene sequence |
+| 32.  btop_mismatches    | Blast traceback operations (BTOP) strings are compact, human-readable representations of how a BLAST alignment matches and mismatches between query and subject sequences |
+| 33. var_type           | The type of variant. Currently only SNP supported |
+| 34. var_seq_type       | Variant sequence type. if known_var=1, n or p for nucleotide or protein |
+| 35. known_var_change   | if known_var=1, the wild/variant change, eg I42L |
+| 36. has_known_var      | if known_var=1, 1 or 0 for whether or not the assembly has the variant |
+| 37. ref_ctg_change     | amino acid or nucleotide change between database gene and contig, eg I42L |
+| 38. ref_ctg_effect     | effect of change between database gene and contig, eg SYS, NONSYN (amino acid changes only) |
+| 39. ref_start          | start position of variant in database gene |
+| 40. ref_end            | end position of variant in database gene |
+| 41. ref_nt             | nucleotide(s) in database gene at variant position |
+| 42. ctg_start          | start position of variant in contig |
+| 43. ctg_end            | end position of variant in contig |
+| 44. ctg_nt             | nucleotide(s) in contig at variant position |
+| 45. smtls_total_depth  | total read depth at variant start position in contig, reported by mpileup |
+| 46. smtls_nts          | nucleotides on contig, as reported by mpileup. The first is the contig nucleotide |
+| 47. smtls_nts_depth    | depths on contig, as reported by mpileup. One number per nucleotide in the previous column |
+| 48. var_description    | description of variant from metdata |
+
+## Other files
+
+The other files written to the output directory are as follows.
+
+* `assembled_seqs.fa.gz`. This is a gzipped FASTA of the assembled sequences. During assembly, the sequence flanking each reference sequence is assembled, but in this file only the parts of the contigs that match the reference sequences are kept. Furthermore, since no filter of nucleotide identity or reference coverage is applied when generating this file, partial matches from contigs to reference sequences are also included.
+
+* `assembled_genes.fa.gz`. This is a gzipped FASTA file of assembled gene sequences. It does not contain non-coding sequences (those are in `assembled_seqs.fa.gz`), only genes. When comparing a local assembly to a gene, mismatches near the end of the gene can cause the alignment to be too short. ARIBA tries to extend the match by looking for start and stop codons. The extended sequences are in this file, whereas the unextended sequences are in `assembled_seqs.fa.gz`.
+
+* `assemblies.fa.gz`. This is a gzipped FASTA file of the assemblies. It contains the complete, unedited, contigs. Since flanking regions of each reference sequence is assembled, the contig is usually longer than its matching reference sequence. As a result, file sizes should often show the following relationship: `assemblies.fa.gz` > `assembled_genes.fa.gz` and `assembled_seqs.fa.gz`, and sometimes `assembled_seqs.fa.gz` > `assembled_genes.fa.gz`.
+
+* `debug.report.tsv`. Not only does this file contain all rows of `report.tsv`, but also includes rows about synonymous mutations.
+
+* `log.clusters.gz`. Detailed logging is kept for the progress of each cluster. This is a gzipped file containing all the logging information.
+
+* `version_info.txt`. This contains detailed information on the versions of ARIBA and its dependencies. It is the output of running the task [[version|Task:-version]].
 
 ## Installation
 
