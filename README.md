@@ -325,10 +325,10 @@ debugging.
 Please read the [ARIBA wiki page][ARIBA wiki] for full usage instructions.
 
 ## Citation
-ChiVariARIBA: A modular, editable workflow and database for characterising chitin gene variation in *Vibrio* spp. and related bacteria 
+ChiVariARIBA: A modular, editable workflow and database for characterising chitin gene variation in *Vibrio* spp. and related bacteria. 
 Naughton EP, Dorman MJ. (Manuscript in review)
 
-ARIBA: rapid antimicrobial resistance genotyping directly from sequencing reads
+ARIBA: rapid antimicrobial resistance genotyping directly from sequencing reads. 
 Hunt M, Mather AE, Sánchez-Busó L, Page AJ, Parkhill J , Keane JA, Harris SR.
 Microbial Genomics 2017. doi: [110.1099/mgen.0.000131](http://mgen.microbiologyresearch.org/content/journal/mgen/10.1099/mgen.0.000131)
 
