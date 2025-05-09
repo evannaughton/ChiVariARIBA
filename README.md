@@ -10,7 +10,7 @@
 
 # ChiVariARIBA
 
-Chitin Metabolism Pathway Gene Identification By Assembly Using ARIBA
+Chitin Metabolism Pathway Gene Identification By Assembly Using ARIBA.
 
 This resource was developed to allow the user to effectively identify chitin metabolism pathway components in Vibrios and other related species using paired-end sequencing reads as input.
 
@@ -21,7 +21,7 @@ For how to use ARIBA, please see the [ARIBA wiki page][ARIBA wiki]. *THIS README
 * [Preparing ChiVariARIBA reference sequences](#Preparing-ChiVariARIBA-reference-sequences)
 * [Quick Start](#quick-start)
 * [Output](#output)
-* [Installation](#installation)
+* [ARIBA Installation](#installation)
   * [Required dependencies](#required-dependencies)
   * [Using pip3](#using-pip3)
   * [From Source](#from-source)
@@ -40,11 +40,13 @@ ChiVariARIBA is a tool that identifies genes encoding chitin metabolism pathway 
 The input is a FASTA file of reference sequences (we have compiled these chitin metabolism pathway genes carefully from the literature) and paired sequencing reads. ChiVariARIBA reports which of the reference sequences were found, plus detailed information on the quality of the assemblies and any variants between the sequencing reads and the reference sequences.
 
 ## Preparing ChiVariARIBA reference sequences
-add details here of how the earlier work was done - for consistency with the manuscript
+We used a quality-controlled collection of 241 annotated genome sequences, representative of the *Vibrio* genus and other related bacteria, to create the pangenome used as input for this workflow. Details of how these genomes were collated are available in the manuscript linked to this repository (see below).
 
+From these annotated assemblies, a list of 189 genes exerimentally proven to be associated with chitin metabolism pathways in various species were identified. The list included genes for which experimental or functional evidence was available in the literature supporting their role in chitin metabolism (see linked manuscript). We extrapolated this carefully collated list to include variants of these genes which are inferred to have the same function through high BLAST percent identity. Representative gene sequences from the pangenome gene families which contained these reference/variant genes were collated into the ariba_chitin_genes.fasta file available in this repository. The fasta file header for each sequence corresponds to the unique gene clustering ID in the pangenome output (combined_DNA_CDS.fasta), and the annotation and accession number for the representative gene sequence is available in the ariba_metadata.tsv file in this repository. The metadata file also captures all of the sequence variation contained in the sequence alignment for each gene family. 
 
-We used a quality-controlled collection of 241 annotated genome sequences to create the pangenome used as input for this workflow. Details of how these genomes were collated are available in the manuscript linked to this repository (see below).
-From these annotated assemblies, a list of 189 genes associated with chitin metabolism were identified. The list included genes for which experimental or functional evidence was available in the literature supporting their role in chitin metabolism (see linked manuscript). Representative gene sequences from the pangenome gene families which contained these genes were collated into the ariba_chitin_genes.fasta file available in this repository. The fasta file header for each sequence corresponds to the gene family name in the pangenome output, and the annotation and accession number for the representative gene sequence is available in the ariba_metadata.tsv file in this repository. The metadata file also captures all of the sequence variation contained in the sequence alignment for each gene family. When ARIBA is used with this database, the presence and absence of all 189 gene families in read files will be reported, as well as any known sequence variants for genes previously-identified in the original pangenome. 
+Additionally, because ChiVariARIBA contains both experimentally proven chitin gene sequences as well as variants of these sequences, if the tool detects one of the variant genes within a sample, it reports back how the identified sequence varies from the variant gene, and then also reports how this variant gene varies from the reference chitin gene sequence, in the form of Blast traceback operations (BTOP) strings (description below). 
+
+When ARIBA is used with the ChiVariARIBA database, the presence and absence of all 189 representative gene families AND their inferred variants in read files will be reported.
 
 ## Quick Start
 We have attached a pre-prepared database to this repository (ariba_database) which can be pulled down and ran independently with your selected input sequencing reads. However, we have also included the original .fasta and .tsv metadata file that were originally used to create ariba_database. You can recreate your own ariba_database using these files with the following command:
@@ -59,7 +61,7 @@ Run local assemblies and call variants:
 
 where the `reads_1.fq`, `reads_2.fq` are the names of the forwards and reverse paired reads files. The reads files can be in any format that is compatible with [minimap](https://github.com/lh3/minimap) (in particular, gzipped).
 
-Important: ARIBA assumes that read _N_ in the file `reads_1.fq` is the mate of read _N_ in the file `reads_2.fq`. All output files will be put in a new directory called `out_dir`.
+Important: ARIBA assumes that read _N_ in the file `reads_1.fq` is the mate of read _N_ in the file `reads_2.fq`. All output files will be put in a new directory called `ariba_output`.
 
 Collapse the output report so that each gene found represents one single line (please move the collapse_report.py script into the ariba_output directory before executing):
 
@@ -151,9 +153,11 @@ The other files written to the output directory are as follows.
 
 * `version_info.txt`. This contains detailed information on the versions of ARIBA and its dependencies. It is the output of running the task [[version|Task:-version]].
 
-## Installation
+An example ariba_output directory is given in this repository. ChiVariARIBA was executed on a set of reads for a sample (ERR13299686 - [NCBI Sequence Read Archive - ERR13299686](https://www.ncbi.nlm.nih.gov/sra/?term=ERR13299686)). We then collapsed the report.tsv using collapse_report.py to produce ariba_collapsed_report.tsv. Please familiarise yourself on what the output file looks like and what each of the columns represent.
 
-In order to use ChiVariARIBA, you must first install ARIBA. If you encounter an issue when installing ARIBA please contact your local system administrator. If you encounter a bug you can log it [here](https://github.com/sanger-pathogens/ariba/issues).
+## ARIBA Installation
+
+In order to use ChiVariARIBA, you must first install ARIBA. There are many ways to install and run ARIBA, and these are available on the ARIBA Github page - [sanger-pathogens/ariba](https://github.com/sanger-pathogens/ariba). We will describe some of the installation methods which work best with ChiVariARIBA below. If you encounter an issue when installing ARIBA please contact your local system administrator. If you encounter a bug you can log it [here](https://github.com/sanger-pathogens/ariba/issues).
 
 ### Required dependencies
   * [Python3][python] version >= 3.6.0
@@ -321,8 +325,8 @@ debugging.
 Please read the [ARIBA wiki page][ARIBA wiki] for full usage instructions.
 
 ## Citation
-ChiVariARIBA:A modular, reproducible, and editable workflow for characterising chitin gene variation in Vibrios and related species
-Naughton E, Dorman M.J. (Journal)(year)(doi)
+ChiVariARIBA: A modular, editable workflow and database for characterising chitin gene variation in *Vibrio* spp. and related bacteria 
+Naughton EP, Dorman MJ. (Manuscript in review)
 
 ARIBA: rapid antimicrobial resistance genotyping directly from sequencing reads
 Hunt M, Mather AE, Sánchez-Busó L, Page AJ, Parkhill J , Keane JA, Harris SR.
