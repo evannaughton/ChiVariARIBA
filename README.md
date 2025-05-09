@@ -340,4 +340,5 @@ Microbial Genomics 2017. doi: [110.1099/mgen.0.000131](http://mgen.microbiologyr
   [mummer]: http://mummer.sourceforge.net/
   [python]: https://www.python.org/
 
+NOTE: The cover image used in this README.md file was generated using OpenAI's DALL·E via ChatGPT.
 
