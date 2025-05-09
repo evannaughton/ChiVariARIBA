@@ -55,7 +55,7 @@ Prepare reference data for ChiVariARIBA:
 
 Run local assemblies and call variants:
 
-    ariba run ariba_database reads1.fastq reads2.fastq ariba_output
+    ariba run ariba_database reads_1.fastq reads_2.fastq ariba_output
 
 where the `reads_1.fq`, `reads_2.fq` are the names of the forwards and reverse paired reads files. The reads files can be in any format that is compatible with [minimap](https://github.com/lh3/minimap) (in particular, gzipped).
 
